@@ -8,18 +8,17 @@ import java.util.Date;
  */
 
 public class Message implements Serializable {
-    String user;
+    boolean left;
     String message;
     Date timeNDate;
 
-    public Message (String user, String message){
-        this.user = user;
+    public Message (boolean left, String message){
         this.message = message;
         this.timeNDate = new Date();
     }
 
-    public String getUser() {
-        return user;
+    public Boolean getLeft() {
+        return left;
     }
 
     public String getMessage() {
