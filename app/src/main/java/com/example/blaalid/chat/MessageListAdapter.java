@@ -56,32 +56,3 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
     }
 }
 
-//public class MessageListAdapter extends ArrayAdapter<Message> {
-//    public MessageListAdapter(Context context, List<Message> users){
-//        super(context, 0, users);
-//    }
-//
-//    private List<Message> chatMessageList = new ArrayList<Message>();
-//
-//    public void add(Message object){
-//        chatMessageList.add(object);
-//        super.add(object);
-//    }
-//
-//    @NonNull
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        Message message = getItem(position);
-//
-//        if(convertView == null) {
-//            convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_layout, parent, false);
-//        }
-//
-//    ImageView person = (ImageView)convertView.findViewById(R.id.imageView);
-//    TextView messageView = (TextView)convertView.findViewById(R.id.textView);
-//
-//    messageView.setText(message.getMessage());
-//
-//    return convertView;
-//    }
-//}

@@ -20,13 +20,14 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        handleChatActivity();
 
 
 
     }
 
     public void handleChatActivity(){
-    Intent intent = new Intent(MainActivity.this, NewConvoActivity.class);
+    Intent intent = new Intent(MainActivity.this, ContactActivity.class);
         startActivity(intent);
     }
 }
