@@ -3,13 +3,15 @@ package com.example.blaalid.chat;
 import android.app.Activity;
 import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+
 /**
  * Created by Blaalid on 12.09.2016.
  */
@@ -22,16 +24,32 @@ public class MessagingActivity extends Activity {
     private ListView listView;
     private EditText chatText;
     private Button buttonSend;
+    private String newString;
     private boolean side = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messaging_activity);
+        Bundle extras = getIntent().getExtras();
 
 
-        buttonSend = (Button) findViewById(R.id.sendButton);
+        if(savedInstanceState == null){
 
+            if(extras == null){
+                newString= null;
+            }
+            else{
+                newString= extras.getString("CONTACT_NAME");
+            }
+        }
+
+        else{
+            newString= (String) savedInstanceState.getSerializable("CONTACT_NAME");
+        }
+
+
+    buttonSend = (Button) findViewById(R.id.sendButton);
     listView = (ListView) findViewById(R.id.listView);
 
     chatArrayAdapter = new MessageListAdapter(getApplicationContext(), R.layout.right);
@@ -54,7 +72,6 @@ public class MessagingActivity extends Activity {
     });
 
     listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-    listView.setAdapter(chatArrayAdapter);
 
     //to scroll the list view to bottom on data change
     chatArrayAdapter.registerDataSetObserver(new DataSetObserver() {
@@ -71,10 +88,15 @@ public class MessagingActivity extends Activity {
             //do nothing
         }
         else{
-            chatArrayAdapter.add(new Message(side, chatText.getText().toString()));
+            chatArrayAdapter.add(new Message(side, chatText.getText().toString(), newString));
             chatText.setText("");
             side = !side;
         }
         return true;
     }
-}
+
+
+
+    }
+
+

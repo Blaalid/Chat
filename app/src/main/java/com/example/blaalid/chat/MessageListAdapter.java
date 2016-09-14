@@ -19,7 +19,7 @@ import java.util.List;
 public class MessageListAdapter extends ArrayAdapter<Message> {
 
     private TextView chatText;
-    private List<Message> chatMessageList = new ArrayList<Message>();
+    private List<Message> chatMessageList = new ArrayList<>();
     private Context context;
 
     @Override

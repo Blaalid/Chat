@@ -7,13 +7,9 @@ import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +19,6 @@ import static com.example.blaalid.chat.R.id.listView;
 public class ContactActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
-    RecyclerView rvContacts;
 
     ArrayList<Contact> contactList = new ArrayList();
     ListView conversationView;
@@ -34,7 +29,6 @@ public class ContactActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact);
         conversationView = (ListView) findViewById(R.id.contactsView);
 
-        System.out.println("GÅR TIL ACT");
         listContacts();
 
 
@@ -72,15 +66,14 @@ public class ContactActivity extends AppCompatActivity {
     private void showContacts(){
         ContactListAdapter contactLAdapter = new ContactListAdapter(ContactActivity.this, contactList);
 
-        //rvContacts.setLayoutManager(new LinearLayoutManager(this));
         conversationView.setAdapter(contactLAdapter);
-
         conversationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 Contact contactName= (Contact) parent.getAdapter().getItem(position);
                 Intent intent = new Intent(ContactActivity.this, MessagingActivity.class);
+                intent.putExtra("CONTACT_NAME", contactName.getContactName());
                 startActivity(intent);
             }
         });

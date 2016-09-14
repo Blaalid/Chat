@@ -10,11 +10,13 @@ import java.util.Date;
 public class Message implements Serializable {
     boolean left;
     String message;
+    String name;
     Date timeNDate;
 
-    public Message (boolean left, String message){
+    public Message (boolean left, String message, String name){
         this.message = message;
         this.timeNDate = new Date();
+        this.name = name;
     }
 
     public Boolean getLeft() {
@@ -23,6 +25,10 @@ public class Message implements Serializable {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Date getTimeNDate() {
