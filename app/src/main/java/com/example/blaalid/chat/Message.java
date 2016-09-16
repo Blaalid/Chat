@@ -8,20 +8,16 @@ import java.util.Date;
  */
 
 public class Message implements Serializable {
-    boolean left;
     String message;
     String name;
     Date timeNDate;
 
-    public Message (boolean left, String message, String name){
+    public Message (String message, String name){
         this.message = message;
         this.timeNDate = new Date();
         this.name = name;
     }
 
-    public Boolean getLeft() {
-        return left;
-    }
 
     public String getMessage() {
         return message;

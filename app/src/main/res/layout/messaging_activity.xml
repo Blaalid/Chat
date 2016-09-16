@@ -1,47 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#efefef"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".MessagingActivity">
 
-    <android.support.v7.widget.Toolbar
+    <include layout="@layout/message_content" />
+
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorControlActivated"
-        android:theme="?attr/actionBarTheme"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar" />
+        android:theme="@style/AppBarOverlay">
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@null"
-        android:divider="@null"
-        android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"></ListView>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/messageToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorAccent"
+            app:popupTheme="@style/PopupOverlay"
+            app:titleTextColor="@color/white"
+            />
 
+    </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <EditText
-            android:id="@+id/messageText"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="2" />
-
-        <Button
-            android:id="@+id/sendButton"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:text="send" />
-    </LinearLayout>
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

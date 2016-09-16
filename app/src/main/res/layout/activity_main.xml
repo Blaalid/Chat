@@ -2,7 +2,6 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:app2=""
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:windowActionBar="false"
@@ -22,8 +21,9 @@
             android:background="?attr/colorControlActivated"
             android:theme="?attr/actionBarTheme"
             android:minHeight="?attr/actionBarSize"
-
-            android:id="@+id/toolbar" />
+            android:id="@+id/toolbar"
+            app:titleTextColor="@color/white"
+            />
 
         <ListView
             android:id="@+id/mainListView"

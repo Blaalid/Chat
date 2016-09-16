@@ -5,16 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:windowActionBar="false"
-    android:id="@+id/maincoordinator">
+    android:id="@+id/mainCoordinator">
 
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorAccent"
         android:theme="?attr/actionBarTheme"
         android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar" />
+        android:id="@+id/contactActivityToolbar"
+        app:titleTextColor="@color/white"
+        />
 
 
     <ListView

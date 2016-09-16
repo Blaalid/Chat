@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,41 +20,26 @@ import java.util.List;
 
 public class MessageListAdapter extends ArrayAdapter<Message> {
 
-    private TextView chatText;
-    private List<Message> chatMessageList = new ArrayList<>();
+    private List<Message> chatMessageList;
     private Context context;
 
-    @Override
-    public void add(Message object) {
-        chatMessageList.add(object);
-        super.add(object);
-    }
-
-    public MessageListAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
+    public MessageListAdapter(Context context, ArrayList<Message> chatMessageList) {
+        super(context, 0, chatMessageList);
         this.context = context;
     }
 
-    public int getCount() {
-        return this.chatMessageList.size();
-    }
 
-    public Message getItem(int index) {
-        return this.chatMessageList.get(index);
-    }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        Message chatMessageObj = getItem(position);
-        View row = convertView;
-        LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (chatMessageObj.left) {
-            row = inflater.inflate(R.layout.right, parent, false);
-        }else{
-            row = inflater.inflate(R.layout.left, parent, false);
+        Message message = getItem(position);
+
+        if(convertView == null){
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_layout, parent, false);
         }
-        chatText = (TextView) row.findViewById(R.id.msgr);
-        chatText.setText(chatMessageObj.message);
-        return row;
+
+        TextView chatText = (TextView) convertView.findViewById(R.id.textView);
+        chatText.setText(message.getMessage());
+        return convertView;
     }
 }
 

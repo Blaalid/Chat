@@ -7,14 +7,12 @@ import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static com.example.blaalid.chat.R.id.listView;
 
 public class ContactActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
@@ -28,14 +26,13 @@ public class ContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
         conversationView = (ListView) findViewById(R.id.contactsView);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.contactActivityToolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Select contact");
         listContacts();
 
 
     }
-
-
-
 
     private void listContacts() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
@@ -51,7 +48,6 @@ public class ContactActivity extends AppCompatActivity {
 
         while (cursor.moveToNext()) {
 
-            String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
             String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
             Contact contact = new Contact(contactName);
 
@@ -77,13 +73,5 @@ public class ContactActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
     }
-
-
-
-
 }

@@ -1,9 +1,11 @@
 package com.example.blaalid.chat;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Button;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  * Created by Blaalid on 12.09.2016.
  */
 
-public class MessagingActivity extends Activity {
+public class MessagingActivity extends AppCompatActivity {
 
     private static final String TAG = "ChatActivity";
 
@@ -25,17 +27,23 @@ public class MessagingActivity extends Activity {
     private EditText chatText;
     private Button buttonSend;
     private String newString;
-    private boolean side = false;
+    ArrayList<Message> messageList = new ArrayList();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messaging_activity);
-        Bundle extras = getIntent().getExtras();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.messageToolbar);
+        setSupportActionBar(toolbar);
 
+
+
+        Bundle extras = getIntent().getExtras();
+        Intent i = getIntent();
+     //   setTitle(i.getStringExtra("CONTACT_NAME"));
+        setTitle(extras.getString("CONTACT_NAME"));
 
         if(savedInstanceState == null){
-
             if(extras == null){
                 newString= null;
             }
@@ -49,24 +57,18 @@ public class MessagingActivity extends Activity {
         }
 
 
+
+
     buttonSend = (Button) findViewById(R.id.sendButton);
-    listView = (ListView) findViewById(R.id.listView);
+    listView = (ListView) findViewById(R.id.messageListView);
 
-    chatArrayAdapter = new MessageListAdapter(getApplicationContext(), R.layout.right);
+    chatArrayAdapter = new MessageListAdapter(this, messageList);
     listView.setAdapter(chatArrayAdapter);
-
     chatText = (EditText) findViewById(R.id.messageText);
-    chatText.setOnKeyListener(new View.OnKeyListener() {
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if ((event.getAction() == android.view.KeyEvent.ACTION_DOWN) && (keyCode == android.view.KeyEvent.KEYCODE_ENTER)) {
-                return sendChatMessage();
-            }
-            return false;
-        }
-    });
+
     buttonSend.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick(View arg0) {
+        public void onClick(View v) {
             sendChatMessage();
         }
     });
@@ -83,20 +85,15 @@ public class MessagingActivity extends Activity {
     });
 }
 
-    private boolean sendChatMessage() {
+    private void sendChatMessage() {
         if("".equals(chatText.getText().toString())) {
             //do nothing
         }
         else{
-            chatArrayAdapter.add(new Message(side, chatText.getText().toString(), newString));
+            messageList.add(new Message(chatText.getText().toString(), newString));
             chatText.setText("");
-            side = !side;
         }
-        return true;
     }
-
-
-
-    }
+ }
 
 
