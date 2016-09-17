@@ -20,10 +20,9 @@ import java.util.List;
 
 public class MessageListAdapter extends ArrayAdapter<Message> {
 
-    private List<Message> chatMessageList;
     private Context context;
 
-    public MessageListAdapter(Context context, ArrayList<Message> chatMessageList) {
+    public MessageListAdapter(Context context, List<Message> chatMessageList) {
         super(context, 0, chatMessageList);
         this.context = context;
     }

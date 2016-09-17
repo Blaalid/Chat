@@ -29,7 +29,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/sendButton"
-        android:id="@+id/messageListView" />
+        android:id="@+id/messageListView"
+        android:transcriptMode="alwaysScroll"
+        android:stackFromBottom="true"/>
 
     <Button
         android:text="SEND"

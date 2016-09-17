@@ -11,15 +11,19 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Blaalid on 12.09.2016.
  */
 
 public class MessagingActivity extends AppCompatActivity {
-
+    public static final String CONVERSATION_ID = "conversationid";
+    public static final String CONTACT_NAME = "contactname";
     private static final String TAG = "ChatActivity";
 
     private MessageListAdapter chatArrayAdapter;
@@ -27,7 +31,7 @@ public class MessagingActivity extends AppCompatActivity {
     private EditText chatText;
     private Button buttonSend;
     private String newString;
-    ArrayList<Message> messageList = new ArrayList();
+    private List<Message> messageList = new ArrayList();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,20 +39,18 @@ public class MessagingActivity extends AppCompatActivity {
         setContentView(R.layout.messaging_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.messageToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
-
-        Bundle extras = getIntent().getExtras();
-        Intent i = getIntent();
-     //   setTitle(i.getStringExtra("CONTACT_NAME"));
-        setTitle(extras.getString("CONTACT_NAME"));
+        Intent intent = getIntent();
+        setTitle(intent.getStringExtra("CONTACT_NAME"));
 
         if(savedInstanceState == null){
-            if(extras == null){
+            if(intent == null){
                 newString= null;
             }
             else{
-                newString= extras.getString("CONTACT_NAME");
+                newString= intent.getStringExtra("CONTACT_NAME");
             }
         }
 
@@ -56,7 +58,16 @@ public class MessagingActivity extends AppCompatActivity {
             newString= (String) savedInstanceState.getSerializable("CONTACT_NAME");
         }
 
+        int conversationId = intent.getIntExtra(CONVERSATION_ID,-1);
+        DomainSingleton service = DomainSingleton.getSingleton(this);
 
+        if(conversationId != -1) {
+            messageList = service.getConversation(conversationId);
+        }  else {
+            messageList = service.createConversation();
+            conversationId = service.getData().size() -1; // OBS not threadsafe
+
+        }
 
 
     buttonSend = (Button) findViewById(R.id.sendButton);
@@ -73,16 +84,10 @@ public class MessagingActivity extends AppCompatActivity {
         }
     });
 
-    listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+
 
     //to scroll the list view to bottom on data change
-    chatArrayAdapter.registerDataSetObserver(new DataSetObserver() {
-        @Override
-        public void onChanged() {
-            super.onChanged();
-            listView.setSelection(chatArrayAdapter.getCount() - 1);
-        }
-    });
+
 }
 
     private void sendChatMessage() {
@@ -92,8 +97,50 @@ public class MessagingActivity extends AppCompatActivity {
         else{
             messageList.add(new Message(chatText.getText().toString(), newString));
             chatText.setText("");
+            updateScrollDown();
+
         }
     }
- }
+
+    private void updateScrollDown(){
+    listView.postDelayed(new Runnable(){
+            @Override
+            public void run(){
+                listView.setSelection(listView.getCount());
+                listView.smoothScrollToPosition(listView.getCount());
+            }
+        }, 100);
+        listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+    }
+
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+
+                return true;
+
+            case R.id.action_settings:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+}
 
 
