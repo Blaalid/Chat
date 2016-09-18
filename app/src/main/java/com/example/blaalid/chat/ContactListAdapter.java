@@ -21,7 +21,8 @@ public class ContactListAdapter extends ArrayAdapter<Contact> {
 
     private List<Contact> contactList;
     private Context Context;
-    public ContactListAdapter( Context context, ArrayList<Contact> contactList){
+
+    public ContactListAdapter(Context context, ArrayList<Contact> contactList) {
         super(context, 0, contactList);
         this.contactList = contactList;
         this.Context = context;

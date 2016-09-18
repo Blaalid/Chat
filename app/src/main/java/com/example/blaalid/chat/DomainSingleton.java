@@ -1,11 +1,11 @@
 package com.example.blaalid.chat;
 
-    import android.content.Context;
-    import android.os.Bundle;
+import android.content.Context;
+import android.os.Bundle;
 
-    import java.util.ArrayList;
-    import java.util.Arrays;
-    import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Blaalid on 17.09.2016.
@@ -17,11 +17,12 @@ public class DomainSingleton {
     private List<String> allContactNames = new ArrayList<>();
     private List<List<Message>> data = new ArrayList<>();
 
-    private DomainSingleton() {}
+    private DomainSingleton() {
+    }
 
 
     public static synchronized DomainSingleton getSingleton(Context context) {
-        if(SINGLETON == null) {
+        if (SINGLETON == null) {
             SINGLETON = new DomainSingleton();
         }
 
@@ -36,9 +37,9 @@ public class DomainSingleton {
         return getData().get(conversationId);
     }
 
-    public synchronized List<String> getAllContacts(){
+    public synchronized List<String> getAllContacts() {
         String contactName;
-        if(getData().size() > 0) {
+        if (getData().size() > 0) {
             for (int i = 0; i < getData().size(); i++) {
                 contactName = getMessage(i).getName();
                 if (!allContactNames.contains(contactName)) {
@@ -55,13 +56,13 @@ public class DomainSingleton {
         return result;
     }
 
-    public synchronized int getIdByName(String contactName){
+    public synchronized int getIdByName(String contactName) {
         Message message;
         int convId = 0;
         int i;
-        for(i = 0; i < getData().size(); i++){
+        for (i = 0; i < getData().size(); i++) {
             message = getMessage(i);
-            if(contactName == message.getName()){
+            if (contactName == message.getName()) {
                 convId = message.getConversationId();
             }
         }
@@ -69,12 +70,11 @@ public class DomainSingleton {
     }
 
 
-    public synchronized Message getMessage(int i){
+    public synchronized Message getMessage(int i) {
 
-            Message message = getData().get(i).get(0);
-            return message;
+        Message message = getData().get(i).get(0);
+        return message;
     }
-
 
 
 }

@@ -12,10 +12,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Blaalid on 12.09.2016.
+ */
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView;
@@ -27,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Chat");
+        getSupportActionBar().setTitle("Conversations");
 
         newChat = (FloatingActionButton) findViewById(R.id.newChatButton);
         newChat.setOnClickListener(new View.OnClickListener() {
@@ -37,50 +43,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(DomainSingleton.getSingleton(this).getData().size() > 0) {
-                listView = (ListView) findViewById(R.id.mainListView);
-                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, DomainSingleton.getSingleton(this).getAllContacts());
-                listView.setAdapter(arrayAdapter);
+        if (DomainSingleton.getSingleton(this).getData().size() > 0) {
+            listView = (ListView) findViewById(R.id.mainListView);
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, DomainSingleton.getSingleton(this).getAllContacts());
+            listView.setAdapter(arrayAdapter);
 
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Message message = DomainSingleton.getSingleton(MainActivity.this).getMessage(position);
-                        String mesContactName = arrayAdapter.getItem(position);
-                        int mesConvId = message.conversationId;
-                        Intent intent = new Intent(MainActivity.this, MessagingActivity.class);
-                        intent.putExtra("CONVERSATION_ID", mesConvId);
-                        intent.putExtra("CONTACT_NAME", mesContactName);
-                        startActivity(intent);
-                    }
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Message message = DomainSingleton.getSingleton(MainActivity.this).getMessage(position);
+                    String mesContactName = arrayAdapter.getItem(position);
+                    int mesConvId = message.conversationId;
+                    Intent intent = new Intent(MainActivity.this, MessagingActivity.class);
+                    intent.putExtra("CONVERSATION_ID", mesConvId);
+                    intent.putExtra("CONTACT_NAME", mesContactName);
+                    startActivity(intent);
+                }
             });
         }
     }
 
 
-    public void handleChatActivity(){
-    Intent intent = new Intent(MainActivity.this, ContactActivity.class);
+    public void handleChatActivity() {
+        Intent intent = new Intent(MainActivity.this, ContactActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-
-                return true;
-
-            case R.id.action_settings:
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

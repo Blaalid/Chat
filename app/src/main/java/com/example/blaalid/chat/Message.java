@@ -13,14 +13,16 @@ public class Message implements Serializable {
     int conversationId;
     Date timeNDate;
 
-    public Message (String message, String name, int conversationId){
+    public Message(String message, String name, int conversationId) {
         this.message = message;
         this.timeNDate = new Date();
         this.name = name;
         this.conversationId = conversationId;
     }
 
-    public int getConversationId(){ return conversationId;}
+    public int getConversationId() {
+        return conversationId;
+    }
 
     public String getMessage() {
         return message;

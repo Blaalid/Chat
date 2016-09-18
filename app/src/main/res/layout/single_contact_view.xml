@@ -46,9 +46,5 @@
                 android:text="Phone"/>
 
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </RelativeLayout>

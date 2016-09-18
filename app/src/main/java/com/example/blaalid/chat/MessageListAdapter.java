@@ -28,11 +28,10 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
     }
 
 
-
     public View getView(int position, View convertView, ViewGroup parent) {
         Message message = getItem(position);
 
-        if(convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.message_layout, parent, false);
         }
 

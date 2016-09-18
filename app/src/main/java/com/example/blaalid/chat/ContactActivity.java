@@ -13,13 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * Created by Blaalid on 12.09.2016.
+ */
+
 public class ContactActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
-
 
     ArrayList<Contact> contactList = new ArrayList();
     ListView conversationView;
@@ -45,16 +47,15 @@ public class ContactActivity extends AppCompatActivity {
         }
     }
 
-    private void readContacts()
-    {
-        Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null, null, null, null);  // gives you the list of contacts who has phone numbers
+    private void readContacts() {
+        Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);  // gives you the list of contacts who has phone numbers
 
         while (cursor.moveToNext()) {
 
             String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
             Contact contact = new Contact(contactName);
 
-            if(!contact.getContactName().contains("@")) {
+            if (!contact.getContactName().contains("@")) {
                 System.out.println(contact.getContactName());
                 contactList.add(contact);
             }
@@ -62,7 +63,7 @@ public class ContactActivity extends AppCompatActivity {
         showContacts();
     }
 
-    private void showContacts(){
+    private void showContacts() {
         final ContactListAdapter contactLAdapter = new ContactListAdapter(ContactActivity.this, contactList);
 
         conversationView.setAdapter(contactLAdapter);
@@ -73,16 +74,12 @@ public class ContactActivity extends AppCompatActivity {
                 String contactName = contactLAdapter.getItem(position).getContactName();
                 Intent intent = new Intent(ContactActivity.this, MessagingActivity.class);
 
-                if(DomainSingleton.getSingleton(ContactActivity.this).getAllContacts().contains(contactName)){
+                if (DomainSingleton.getSingleton(ContactActivity.this).getAllContacts().contains(contactName)) {
                     int mesConvId = DomainSingleton.getSingleton(ContactActivity.this).getIdByName(contactName);
                     intent.putExtra("CONTACT_NAME", contactName);
                     intent.putExtra("CONVERSATION_ID", mesConvId);
-                    Toast.makeText(ContactActivity.this, "Fanst fra før", Toast.LENGTH_SHORT).show();
-
-                }
-                else{
+                } else {
                     intent.putExtra("CONTACT_NAME", contactName);
-                    Toast.makeText(ContactActivity.this, "Fanst ikkje fra før", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -91,15 +88,13 @@ public class ContactActivity extends AppCompatActivity {
         });
     }
 
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -110,11 +105,8 @@ public class ContactActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-
                 return true;
 
-            case R.id.action_settings:
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }

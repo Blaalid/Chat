@@ -1,8 +1,6 @@
 package com.example.blaalid.chat;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -47,37 +45,35 @@ public class MessagingActivity extends AppCompatActivity {
         contactName = intent.getStringExtra("CONTACT_NAME");
         setTitle(contactName);
 
-        conversationId = intent.getIntExtra("CONVERSATION_ID",-1);
+        conversationId = intent.getIntExtra("CONVERSATION_ID", -1);
         DomainSingleton service = DomainSingleton.getSingleton(this);
 
-        if(conversationId != -1) {
+        if (conversationId != -1) {
             messageList = service.getConversation(conversationId);
-        }  else {
+        } else {
             messageList = service.createConversation();
-            conversationId = service.getData().size() -1; // OBS not threadsafe
+            conversationId = service.getData().size() - 1; // OBS not threadsafe
         }
 
 
-    buttonSend = (Button) findViewById(R.id.sendButton);
-    listView = (ListView) findViewById(R.id.messageListView);
+        buttonSend = (Button) findViewById(R.id.sendButton);
+        listView = (ListView) findViewById(R.id.messageListView);
 
-    chatArrayAdapter = new MessageListAdapter(this, messageList);
-    listView.setAdapter(chatArrayAdapter);
-    chatText = (EditText) findViewById(R.id.messageText);
+        chatArrayAdapter = new MessageListAdapter(this, messageList);
+        listView.setAdapter(chatArrayAdapter);
+        chatText = (EditText) findViewById(R.id.messageText);
 
-    buttonSend.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            sendChatMessage();
-        }
-    });
-}
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendChatMessage();
+            }
+        });
+    }
 
     private void sendChatMessage() {
-        if("".equals(chatText.getText().toString())) {
-            //do nothing
-        }
-        else{
+        if ("".equals(chatText.getText().toString())) {
+        } else {
             messageList.add(new Message(chatText.getText().toString(), contactName, conversationId));
             chatText.setText("");
             updateScrollDown();
@@ -85,10 +81,10 @@ public class MessagingActivity extends AppCompatActivity {
         }
     }
 
-    private void updateScrollDown(){
-    listView.postDelayed(new Runnable(){
+    private void updateScrollDown() {
+        listView.postDelayed(new Runnable() {
             @Override
-            public void run(){
+            public void run() {
                 listView.setSelection(listView.getCount());
                 listView.smoothScrollToPosition(listView.getCount());
             }
@@ -96,8 +92,8 @@ public class MessagingActivity extends AppCompatActivity {
         listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
     }
 
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
+
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
@@ -114,10 +110,6 @@ public class MessagingActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-
-                return true;
-
-            case R.id.action_settings:
                 return true;
         }
         return super.onOptionsItemSelected(item);
