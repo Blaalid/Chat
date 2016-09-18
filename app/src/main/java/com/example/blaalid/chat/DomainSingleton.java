@@ -13,9 +13,8 @@ package com.example.blaalid.chat;
 
 
 public class DomainSingleton {
-    private int conversationId;
     public static DomainSingleton SINGLETON;
-
+    private List<String> allContactNames = new ArrayList<>();
     private List<List<Message>> data = new ArrayList<>();
 
     private DomainSingleton() {}
@@ -43,31 +42,24 @@ public class DomainSingleton {
         return result;
     }
 
-//    public String getNameAndMessage(){
-//        String tempName;
-//        List<Message> tempList = new ArrayList<>();
-//        for (List<Message> temp : data) {
-//            tempList = temp;
-//            for(Message tempMessage : tempList){
-//                tempMessage.getName();
-//                return tempName;
-//            }
-//            return tempName;
-//        }
-//        return tempName;
-//    }
 
-    public synchronized String getMessageName(){
-        String name = "";
-        if(getData().size() != 0) {
-            for(int i = 0; i < getData().size(); i++) {
-                Message message = getData().get(conversationId).get(i);
-                name = message.getName();
-           }
-            return name;
+    public synchronized Message getMessage(int i){
+
+            Message message = getData().get(i).get(0);
+            return message;
+    }
+
+
+    public synchronized List<String> getAllContacts(){
+        String contactName;
+        if(getData().size() > 0) {
+            for (int i = 0; i < getData().size(); i++) {
+                contactName = getMessage(i).getName();
+                if (!allContactNames.contains(contactName)) {
+                    allContactNames.add(contactName);
+                }
+            }
         }
-        else {
-            return name;
-        }
+        return allContactNames;
     }
 }

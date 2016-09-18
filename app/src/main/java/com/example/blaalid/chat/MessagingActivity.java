@@ -23,14 +23,15 @@ import java.util.List;
 
 public class MessagingActivity extends AppCompatActivity {
     public static final String CONVERSATION_ID = "conversationid";
-    public static final String CONTACT_NAME = "contactname";
-    private static final String TAG = "ChatActivity";
+    public static final String CONTACT_NAME = "contactName";
+
+    private int conversationId;
 
     private MessageListAdapter chatArrayAdapter;
     private ListView listView;
     private EditText chatText;
     private Button buttonSend;
-    private String newString;
+    private String contactName;
     private List<Message> messageList = new ArrayList();
 
     @Override
@@ -43,22 +44,10 @@ public class MessagingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
-        setTitle(intent.getStringExtra("CONTACT_NAME"));
+        contactName = intent.getStringExtra("CONTACT_NAME");
+        setTitle(contactName);
 
-        if(savedInstanceState == null){
-            if(intent == null){
-                newString= null;
-            }
-            else{
-                newString= intent.getStringExtra("CONTACT_NAME");
-            }
-        }
-
-        else{
-            newString= (String) savedInstanceState.getSerializable("CONTACT_NAME");
-        }
-
-        int conversationId = intent.getIntExtra(CONVERSATION_ID,-1);
+        conversationId = intent.getIntExtra("CONVERSATION_ID",-1);
         DomainSingleton service = DomainSingleton.getSingleton(this);
 
         if(conversationId != -1) {
@@ -66,7 +55,6 @@ public class MessagingActivity extends AppCompatActivity {
         }  else {
             messageList = service.createConversation();
             conversationId = service.getData().size() -1; // OBS not threadsafe
-
         }
 
 
@@ -83,11 +71,6 @@ public class MessagingActivity extends AppCompatActivity {
             sendChatMessage();
         }
     });
-
-
-
-    //to scroll the list view to bottom on data change
-
 }
 
     private void sendChatMessage() {
@@ -95,7 +78,7 @@ public class MessagingActivity extends AppCompatActivity {
             //do nothing
         }
         else{
-            messageList.add(new Message(chatText.getText().toString(), newString));
+            messageList.add(new Message(chatText.getText().toString(), contactName, conversationId));
             chatText.setText("");
             updateScrollDown();
 
@@ -121,7 +104,6 @@ public class MessagingActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
