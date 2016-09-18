@@ -36,20 +36,6 @@ public class DomainSingleton {
         return getData().get(conversationId);
     }
 
-    public synchronized List<Message> createConversation() {
-        List<Message> result = new ArrayList<>();
-        getData().add(result);
-        return result;
-    }
-
-
-    public synchronized Message getMessage(int i){
-
-            Message message = getData().get(i).get(0);
-            return message;
-    }
-
-
     public synchronized List<String> getAllContacts(){
         String contactName;
         if(getData().size() > 0) {
@@ -62,4 +48,34 @@ public class DomainSingleton {
         }
         return allContactNames;
     }
+
+    public synchronized List<Message> createConversation() {
+        List<Message> result = new ArrayList<>();
+        getData().add(result);
+        return result;
+    }
+
+    public synchronized int getIdByName(String contactName){
+        Message message;
+        int convId = 0;
+        int i;
+        for(i = 0; i < getData().size(); i++){
+            message = getMessage(i);
+            if(contactName == message.getName()){
+                convId = message.getConversationId();
+            }
+        }
+        return convId;
+    }
+
+
+    public synchronized Message getMessage(int i){
+
+            Message message = getData().get(i).get(0);
+            return message;
+    }
+
+
+
 }
+

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -30,10 +31,10 @@ public class ContactActivity extends AppCompatActivity {
         conversationView = (ListView) findViewById(R.id.contactsView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.contactActivityToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         setTitle("Select contact");
         listContacts();
-
-
     }
 
     private void listContacts() {
@@ -71,7 +72,20 @@ public class ContactActivity extends AppCompatActivity {
                                     long id) {
                 String contactName = contactLAdapter.getItem(position).getContactName();
                 Intent intent = new Intent(ContactActivity.this, MessagingActivity.class);
-                intent.putExtra("CONTACT_NAME", contactName);
+
+                if(DomainSingleton.getSingleton(ContactActivity.this).getAllContacts().contains(contactName)){
+                    int mesConvId = DomainSingleton.getSingleton(ContactActivity.this).getIdByName(contactName);
+                    intent.putExtra("CONTACT_NAME", contactName);
+                    intent.putExtra("CONVERSATION_ID", mesConvId);
+                    Toast.makeText(ContactActivity.this, "Fanst fra før", Toast.LENGTH_SHORT).show();
+
+                }
+                else{
+                    intent.putExtra("CONTACT_NAME", contactName);
+                    Toast.makeText(ContactActivity.this, "Fanst ikkje fra før", Toast.LENGTH_SHORT).show();
+
+
+                }
                 startActivity(intent);
             }
         });
