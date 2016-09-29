@@ -11,11 +11,9 @@ public class Message implements Serializable {
     String message;
     String name;
     int conversationId;
-    Date timeNDate;
 
     public Message(String message, String name, int conversationId) {
         this.message = message;
-        this.timeNDate = new Date();
         this.name = name;
         this.conversationId = conversationId;
     }
@@ -28,11 +26,6 @@ public class Message implements Serializable {
         return message;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Date getTimeNDate() {
-        return timeNDate;
+    public String getName() { return name;
     }
 }

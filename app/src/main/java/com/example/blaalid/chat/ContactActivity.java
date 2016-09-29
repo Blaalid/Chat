@@ -31,10 +31,12 @@ public class ContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
         conversationView = (ListView) findViewById(R.id.contactsView);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.contactActivityToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         setTitle("Select contact");
         listContacts();
     }
@@ -51,12 +53,9 @@ public class ContactActivity extends AppCompatActivity {
         Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);  // gives you the list of contacts who has phone numbers
 
         while (cursor.moveToNext()) {
-
             String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
             Contact contact = new Contact(contactName);
-
             if (!contact.getContactName().contains("@")) {
-                System.out.println(contact.getContactName());
                 contactList.add(contact);
             }
         }
@@ -80,8 +79,6 @@ public class ContactActivity extends AppCompatActivity {
                     intent.putExtra("CONVERSATION_ID", mesConvId);
                 } else {
                     intent.putExtra("CONTACT_NAME", contactName);
-
-
                 }
                 startActivity(intent);
             }

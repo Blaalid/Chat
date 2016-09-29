@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Conversations");
@@ -54,15 +55,16 @@ public class MainActivity extends AppCompatActivity {
                     Message message = DomainSingleton.getSingleton(MainActivity.this).getMessage(position);
                     String mesContactName = arrayAdapter.getItem(position);
                     int mesConvId = message.conversationId;
+
                     Intent intent = new Intent(MainActivity.this, MessagingActivity.class);
                     intent.putExtra("CONVERSATION_ID", mesConvId);
                     intent.putExtra("CONTACT_NAME", mesContactName);
+
                     startActivity(intent);
                 }
             });
         }
     }
-
 
     public void handleChatActivity() {
         Intent intent = new Intent(MainActivity.this, ContactActivity.class);

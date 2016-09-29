@@ -27,7 +27,6 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
         this.context = context;
     }
 
-
     public View getView(int position, View convertView, ViewGroup parent) {
         Message message = getItem(position);
 

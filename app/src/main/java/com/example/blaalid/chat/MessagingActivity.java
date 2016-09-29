@@ -20,15 +20,12 @@ import java.util.List;
  */
 
 public class MessagingActivity extends AppCompatActivity {
-    public static final String CONVERSATION_ID = "conversationid";
-    public static final String CONTACT_NAME = "contactName";
-
-    private int conversationId;
 
     private MessageListAdapter chatArrayAdapter;
     private ListView listView;
     private EditText chatText;
     private Button buttonSend;
+    private int conversationId;
     private String contactName;
     private List<Message> messageList = new ArrayList();
 
@@ -36,6 +33,7 @@ public class MessagingActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.messaging_activity);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.messageToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -43,9 +41,9 @@ public class MessagingActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         contactName = intent.getStringExtra("CONTACT_NAME");
+        conversationId = intent.getIntExtra("CONVERSATION_ID", -1);
         setTitle(contactName);
 
-        conversationId = intent.getIntExtra("CONVERSATION_ID", -1);
         DomainSingleton service = DomainSingleton.getSingleton(this);
 
         if (conversationId != -1) {
@@ -93,7 +91,6 @@ public class MessagingActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
@@ -106,7 +103,6 @@ public class MessagingActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();

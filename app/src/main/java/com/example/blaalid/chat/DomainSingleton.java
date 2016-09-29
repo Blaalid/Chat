@@ -17,15 +17,10 @@ public class DomainSingleton {
     private List<String> allContactNames = new ArrayList<>();
     private List<List<Message>> data = new ArrayList<>();
 
-    private DomainSingleton() {
-    }
-
-
     public static synchronized DomainSingleton getSingleton(Context context) {
         if (SINGLETON == null) {
             SINGLETON = new DomainSingleton();
         }
-
         return SINGLETON;
     }
 
